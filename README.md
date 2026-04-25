@@ -15,6 +15,41 @@ The evaluation path now includes:
 - chart consistency checks between OCR chart-to-table output and the original image;
 - stratified manifest runs that keep held-out answer-like fields away from the model.
 
+## Benchmark Summary
+
+Two 301-sample PyFi runs were completed with the same ERNIE model but different
+PaddleOCR settings:
+
+- Round 1
+  - OCR: PaddleOCR remote `layout-parsing`, effective preset `medium`
+  - Key OCR settings: `useChartRecognition=true`, `useSealRecognition=false`,
+    `mergeTables=false`, `relevelTitles=false`, `promptLabel="chart"`,
+    `restructurePages=false`
+  - LLM: `ernie-4.5-21b-a3b`
+  - Result: `163/295` correct, accuracy `0.552542`
+
+- Round 2
+  - OCR: PaddleOCR remote `layout-parsing`, preset `baidu_sample`
+  - Key OCR settings: `useChartRecognition=true`, `useSealRecognition=true`,
+    `mergeTables=true`, `relevelTitles=true`, `promptLabel="ocr"`,
+    `restructurePages=true`
+  - LLM: `ernie-4.5-21b-a3b`
+  - Result: `157/300` correct, accuracy `0.523333`
+
+Main observations:
+
+- Heavier OCR reduced missing predictions (`6 -> 1`) but lowered overall
+  accuracy (`0.552542 -> 0.523333`).
+- The largest drops were in `Calculation_analysis` and `Data_extraction`.
+- The dominant failure mode is still loss of visual evidence during OCR
+  textification, with a secondary class of errors where ERNIE misjudges even
+  when the OCR evidence is already sufficient.
+
+Detailed writeups:
+
+- [Two-round results summary](docs/two_round_results_summary.md)
+- [Error analysis summary](output-pyfi301-ernie45-baidu-sample-smoke-20260423/error_analysis_summary.md)
+
 ## Environment
 
 All Python dependencies must stay in the project-local `.venv`.

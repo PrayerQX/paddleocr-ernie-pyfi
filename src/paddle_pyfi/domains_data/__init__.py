@@ -1,0 +1,1 @@
+"""Bundled domain adapter definitions."""

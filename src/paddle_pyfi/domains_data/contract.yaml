@@ -1,0 +1,33 @@
+name: contract
+document_types:
+  - contract
+  - agreement
+  - terms
+tasks:
+  - summarize
+  - extract_parties
+  - extract_obligations
+  - extract_dates
+  - risk_review
+  - question_answering
+output_schema:
+  parties: list
+  effective_dates: list
+  obligations: list
+  payment_terms: list
+  termination_terms: list
+  risks: list
+  evidence: list
+  uncertainties: list
+forbidden:
+  - legal_advice_without_review
+  - fabricated_missing_clauses
+  - unsupported_liability_conclusions
+system_instructions: |
+  Treat the OCR output as evidence for contract review. Extract parties,
+  dates, obligations, payments, termination clauses, and risk points with
+  citations. State uncertainty clearly. Do not present the output as a
+  substitute for legal review.
+evaluation_notes:
+  - Check that each extracted clause has supporting text.
+  - Mark missing signatures, dates, or pages when the OCR evidence is incomplete.

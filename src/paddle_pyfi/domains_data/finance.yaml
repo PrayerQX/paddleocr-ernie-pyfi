@@ -1,0 +1,40 @@
+name: finance
+document_types:
+  - annual_report
+  - research_report
+  - stock_chart
+  - financial_statement
+  - earnings_presentation
+tasks:
+  - summarize
+  - extract_metrics
+  - calculate
+  - pattern_recognition
+  - risk_analysis
+  - question_answering
+output_schema:
+  answer: string
+  choice: string_or_null
+  confidence: string
+  document_summary: string
+  extracted_metrics: list
+  calculations: list
+  chart_consistency: object
+  evidence: list
+  uncertainties: list
+  research_conclusion: string
+forbidden:
+  - deterministic_investment_advice
+  - fabricated_missing_values
+  - test_set_label_leakage
+  - unsupported_forward_return_claims
+system_instructions: |
+  Use the PyFi layered capability frame: perception, data extraction,
+  calculation analysis, pattern recognition, logical reasoning, and
+  research-oriented decision support. Every important conclusion must cite OCR
+  evidence. Do not invent missing financial values. Do not give deterministic
+  investment advice.
+evaluation_notes:
+  - Verify numeric consistency for ratios, deltas, totals, and time periods.
+  - Mark OCR uncertainty where tables or chart axes are incomplete.
+  - Keep benchmark improvements within academically accepted practice.

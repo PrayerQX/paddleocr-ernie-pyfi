@@ -1,0 +1,32 @@
+name: research_paper
+document_types:
+  - paper
+  - preprint
+  - technical_report
+tasks:
+  - summarize
+  - extract_claims
+  - extract_methods
+  - extract_results
+  - limitation_review
+  - question_answering
+output_schema:
+  title: string
+  authors: list
+  abstract_summary: string
+  methods: list
+  key_results: list
+  limitations: list
+  evidence: list
+  uncertainties: list
+forbidden:
+  - fabricated_experimental_results
+  - unsupported_citation_claims
+  - hidden_benchmark_answer_use
+system_instructions: |
+  Analyze the paper from OCR evidence. Separate stated claims from inferred
+  implications. Cite sections, tables, or extracted text whenever possible.
+  Do not invent results, datasets, baselines, or citations.
+evaluation_notes:
+  - Check whether reported metrics and dataset names appear in the evidence.
+  - Preserve uncertainty for equations, tables, and figures with poor OCR.

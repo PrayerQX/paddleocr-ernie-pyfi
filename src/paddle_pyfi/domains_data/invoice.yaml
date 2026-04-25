@@ -1,0 +1,31 @@
+name: invoice
+document_types:
+  - invoice
+  - receipt
+  - bill
+tasks:
+  - extract_fields
+  - validate_totals
+  - normalize_units
+  - question_answering
+output_schema:
+  vendor: string
+  buyer: string
+  invoice_number: string
+  invoice_date: string
+  line_items: list
+  subtotal: string
+  tax: string
+  total: string
+  evidence: list
+  uncertainties: list
+forbidden:
+  - fabricated_invoice_fields
+  - unsupported_tax_compliance_claims
+system_instructions: |
+  Extract invoice fields from OCR evidence. Validate totals when line items are
+  available. Preserve original values and normalized values separately when
+  possible. Mark fields as missing instead of guessing.
+evaluation_notes:
+  - Compare subtotal, tax, and total when enough values are available.
+  - Preserve currency symbols and units from the OCR evidence.
